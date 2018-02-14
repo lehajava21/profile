@@ -3,11 +3,8 @@ package com.telran.mishpahug.repository.server;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.telran.mishpahug.interactor.interfaces.IRepositoryServer;
 import com.telran.mishpahug.model.ServerRequestType;
-import com.telran.mishpahug.model.Token;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RepositoryServer implements IRepositoryServer{
@@ -38,18 +34,14 @@ public class RepositoryServer implements IRepositoryServer{
     }
 
     @Override
-    public void request(final ServerRequestType type, Token token, Object object) {
+    public void request(final ServerRequestType type, String token, Object object) {
 
         Request.Builder builder = new Request.Builder();
         StringBuilder url = new StringBuilder(BASE_URL);
         switch (type) {
             case LOGIN:
                 break;
-            case SAVE_PROFILE:
-                break;
-            case LOAD_PROFILE:
-                break;
-            case LOAD_EVENTS:
+            case EVENTS:
                 break;
         }
         Request request = builder.build();
@@ -83,11 +75,9 @@ class Task extends AsyncTask {
         switch (type){
             case LOGIN:
                 break;
-            case SAVE_PROFILE:
+            case PROFILE:
                 break;
-            case LOAD_PROFILE:
-                break;
-            case LOAD_EVENTS:
+            case EVENTS:
                 break;
         }
     }

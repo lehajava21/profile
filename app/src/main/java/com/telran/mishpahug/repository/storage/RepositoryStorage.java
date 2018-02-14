@@ -3,8 +3,9 @@ package com.telran.mishpahug.repository.storage;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.telran.mishpahug.interactor.interfaces.IRepositoryStorage;
-import com.telran.mishpahug.model.Token;
+import com.telran.mishpahug.model.Profile;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -22,18 +23,22 @@ public class RepositoryStorage implements IRepositoryStorage{
     }
 
     @Override
-    public void saveToken(Token token) {
+    public void saveProfile(Profile profile) {
+        if(profile == null){
+            return;
+        }
+        Gson gson = new Gson();
+        String content = gson.toJson(profile);
         SharedPreferences.Editor editor = sPref.edit();
-        editor.putString("TOKEN",token.getToken());
+        editor.putString("PROFILE",content);
         editor.commit();
     }
 
     @Override
-    public Token loadToken() {
-        String token = sPref.getString("TOKEN","");
-        if(token.isEmpty()){
-            return null;
-        }
-        return new Token(token);
+    public Profile loadProfile() {
+        String content = sPref.getString("PROFILE","");
+        Gson gson = new Gson();
+        Profile profile = gson.fromJson(content,Profile.class);
+        return profile;
     }
 }

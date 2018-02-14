@@ -2,7 +2,6 @@ package com.telran.mishpahug.repository.cloudinary;
 
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -33,30 +32,43 @@ public class RepositoryCloudinary implements IRepositoryCloudinary {
     }
 
     @Override
-    public void saveImage(Uri uri) {
-        MediaManager.get()
+    public void savePhoto(Uri uri) {
+
+        MediaManager
+                .get()
                 .upload(uri)
                 .option("overwrite", true)
                 .callback(new UploadCallback() {
-            @Override
-            public void onStart(String requestId) {
-            }
-            @Override
-            public void onProgress(String requestId, long bytes, long totalBytes) {
-                Double progress = (double) bytes/totalBytes;
-            }
-            @Override
-            public void onSuccess(String requestId, Map resultData) {
-                String url = (String) resultData.get("url");
-                interactor.onClaudinaryUrl(url);
-            }
-            @Override
-            public void onError(String requestId, ErrorInfo error) {
-                Message message= new Message("Error:",error.getDescription());
-                interactor.onCloudinaryError(message);
-            }
-            @Override
-            public void onReschedule(String requestId, ErrorInfo error) {
-            }}).dispatch();
-    }
+
+                    @Override
+                    public void onStart(String requestId) {
+
+                    }
+
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        String url = (String) resultData.get("url");
+                        interactor.onClaudinaryUrl(url);
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+                        Message message= new Message("Error:",error.getDescription());
+                        interactor.onCloudinaryError(message);
+
+                    }
+
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {
+
+                    }}).dispatch();
+
+        }
+
 }
+

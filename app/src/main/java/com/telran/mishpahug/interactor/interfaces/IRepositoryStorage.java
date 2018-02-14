@@ -1,8 +1,8 @@
 package com.telran.mishpahug.interactor.interfaces;
 
-import com.telran.mishpahug.model.Token;
+import com.telran.mishpahug.model.Profile;
 
 public interface IRepositoryStorage {
-    void saveToken(Token token);
-    Token loadToken();
+    void saveProfile(Profile profile);
+    Profile loadProfile();
 }

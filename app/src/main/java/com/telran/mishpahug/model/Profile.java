@@ -1,22 +1,33 @@
 package com.telran.mishpahug.model;
 
-public class Profile {
+import java.io.Serializable;
 
-    String fullname   = "";
-    Boolean type      = false;
-    Boolean sex       = false;
-    String birthday   = "";
-    String photo      = "";
-    String address    = "";
-    Boolean marStatus = false;
-    String kitchen    = "";
-    String religion   = "";
-    String kosher     = "";
-    String language   = "";
-    String about      = "";
-    String allergy    = "";
+public class Profile implements Serializable{
+
+    private String token       = "";
+    private String fullname    = "";
+    private Boolean type       = false;
+    private Boolean sex        = false;
+    private String birthday    = "2000-1-1";
+    private String[] photo     = {"","",""};
+    private String address     = "";
+    private Boolean marStatus  = false;
+    private String kitchen     = "";
+    private String religion    = "";
+    private String kosher      = "";
+    private String language    = "";
+    private String about       = "";
+    private String allergy     = "";
 
     public Profile() {
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getFullname() {
@@ -51,11 +62,9 @@ public class Profile {
         this.birthday = birthday;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
+    public String[] getPhoto() {return photo;}
 
-    public void setPhoto(String photo) {
+    public void setPhoto(String[] photo) {
         this.photo = photo;
     }
 

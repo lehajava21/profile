@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.telran.mishpahug.R;
 import com.telran.mishpahug.interactor.interfaces.IPresenterInteractorLoginr;
 import com.telran.mishpahug.model.Message;
-import com.telran.mishpahug.model.Token;
 import com.telran.mishpahug.view.login.FragmentLogin;
 import com.telran.mishpahug.view.login.IPresenterViewLogin;
 
@@ -39,8 +38,7 @@ public class PresenterLogin implements IPresenterInteractorLoginr,IPresenterView
 
     @Override
     public void onFbToken(String token) {
-        Token fbToken = new Token(token);
-        interactor.onFbToken(fbToken);
+        interactor.onFbToken(token);
     }
 
 }

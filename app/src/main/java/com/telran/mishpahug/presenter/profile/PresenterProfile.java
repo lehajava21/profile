@@ -23,7 +23,6 @@ public class PresenterProfile implements IPresenterInteractorProfile,IPresenterV
     private IInteractorPresenterProfile interactor;
     private AppCompatActivity activity;
     private IViewProfile fragment;
-    private Profile profile;
 
     public PresenterProfile(IInteractorPresenterProfile interactor,AppCompatActivity activity){
         this.interactor = interactor;
@@ -37,56 +36,38 @@ public class PresenterProfile implements IPresenterInteractorProfile,IPresenterV
 
     @Override
     public void onCloudinaryUrl(String url) {
+        fragment.onCloudinaryUrl(url);
         fragment.showProgress(false);
-        Profile profile = fragment.saveProfile(new Profile());
-        profile.setPhoto(url);
+    }
+
+    @Override
+    public void onPhoto(Uri uri) {
+        fragment.showProgress(true);
+        interactor.savePhoto(uri);
+    }
+
+    @Override
+    public void onSave() {
+        Profile profile = fragment.saveProfile();
         interactor.saveProfile(profile);
-    }
-
-    @Override
-    public void onSave(Boolean photoChanged) {
-        if(photoChanged){
-            fragment.showProgress(true);
-            Uri uri = fragment.getUri();
-            interactor.savePhoto(uri);
-        }else {
-            Profile profile = fragment.saveProfile(new Profile());
-            interactor.saveProfile(profile);
-        }
-    }
-
-    @Override
-    public void onPhoto() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        ((Fragment)fragment).startActivityForResult(intent, RequestCode.PHOTO.getId());
     }
 
     @Override
     public void onBirthday() {
         DatePickerDialog   mDatePicker =
-                new DatePickerDialog(activity, new DatePickerDialog.OnDateSetListener()
-        {
-            @Override
-            public void onDateSet(DatePicker datepicker, int year, int month, int day)
-            {
-                fragment.setBirthday(day + " - " + month + " - " + year);
-            }
-        },2000, 1, 1);
+                new DatePickerDialog(activity, (datepicker, year, month, day) ->
+                        fragment.setBirthday(year + "-" + month + "-" + day),
+                        2000, 1, 1);
         mDatePicker.show();
     }
 
     @Override
     public void show(Profile profile) {
+        fragment.setProfile(profile);
         activity.getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, (FragmentProfile)fragment)
                 .commit();
-        if(profile != null){
-            this.profile =profile;
-            fragment.loadProfile(profile);
-        }
     }
 
     @Override
